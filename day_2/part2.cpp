@@ -50,15 +50,33 @@ int main() {
 
     for (long long i = start; i <= end; i++) {
       std::string str_i = std::to_string(i);
+      long long len_i = str_i.length();
+      bool valid = false;
+      for (long long k = 2; k <= len_i; k++) {
+        if (len_i % k != 0) {
+          continue;
+        }
+        bool this_valid = true;
 
-      if (str_i.length() % 2 != 0) {
-        continue;
+        long long part_len = len_i / k;
+
+        std::string part_1 = str_i.substr(0, part_len);
+
+        for (long long j = 1; j < k; j++) {
+          std::string part = str_i.substr(j * part_len, part_len);
+          if (part != part_1) {
+            this_valid = false;
+            break;
+          }
+        }
+
+        if (this_valid) {
+          valid = true;
+          break;
+        }
       }
 
-      std::string part_1 = str_i.substr(0, str_i.length() / 2);
-      std::string part_2 = str_i.substr(str_i.length() / 2, str_i.length() / 2);
-
-      if (part_1 == part_2) {
+      if (valid) {
         std::cout << i << std::endl;
         res += i;
       }
